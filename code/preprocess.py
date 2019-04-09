@@ -1,3 +1,4 @@
+from os import path
 
 # Training Dataset Paths
 AS_TRAIN = "../resources/icwb2-data/training/as_training_simplified.utf8"
@@ -51,10 +52,11 @@ def read_file(original_file_path, input_file_path, label_file_path):
 
 
 
+
+
+
 if __name__ == '__main__':
-    for i in range(len(TRAINING_SETS)):
-        read_file(TRAINING_SETS[i], "../train/input/" + NAMES[i] + ".txt", "../train/labels/" + NAMES[i] + ".txt")
-    for i in range(len(DEV_SETS)):
-        read_file(DEV_SETS[i], "../dev/input/" + NAMES[i] + ".txt", "../dev/labels/" + NAMES[i] + ".txt")
+    #BIES_to_numerical("../resources/train/labels/pku.txt", "../resources/train/labels_numerical/")
+    open("../resources/train/input/as.txt")
 
 
