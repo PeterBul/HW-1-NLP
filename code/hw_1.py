@@ -16,6 +16,7 @@ HIDDEN_SIZE = 256
 
 
 def build_vocab(data):
+    MAX_VOCAB_SIZE = 20000
     word_to_id = dict()
     word_to_id['<PAD>'] = 0
     word_to_id['<START>'] = 1
@@ -25,6 +26,9 @@ def build_vocab(data):
         for line in data:
             line = line.strip()
             for i in range(len(line)):
+                if(len(word_to_id) >= MAX_VOCAB_SIZE):
+                    id_to_word = {v: k for k, v in word_to_id.items()}
+                    return word_to_id, id_to_word
                 if line[i] not in word_to_id:
                     word_to_id[line[i]] = index
                     index += 1
@@ -34,6 +38,9 @@ def build_vocab(data):
                         index += 1
     elif isinstance(data, str):
         for i in range(len(data)):
+            if (len(word_to_id) >= MAX_VOCAB_SIZE):
+                id_to_word = {v: k for k, v in word_to_id.items()}
+                return word_to_id, id_to_word
             if data[i] not in word_to_id:
                 word_to_id[data[i]] = index
                 index += 1
@@ -128,11 +135,12 @@ def create_keras_model(vocab_size, embedding_size, hidden_size, dropout, recurre
     print("Creating KERAS model")
 
     # define LSTM
+    print("Vocab size: " + str(vocab_size))
+    print("Embedding size: " + str(embedding_size))
     model = K.models.Sequential()
     model.add(K.layers.Embedding(vocab_size, embedding_size, mask_zero=True))
-    model.add(
-        Bidirectional(LSTM(hidden_size, dropout=dropout, recurrent_dropout=recurrent_dropout, return_sequences=True)))
-    model.add(K.layers.Dense(4, activation='softmax'))
+    model.add(Bidirectional(LSTM(hidden_size, dropout=dropout, recurrent_dropout=recurrent_dropout, return_sequences=True)))
+    model.add(K.layers.TimeDistributed(K.layers.Dense(4, activation='softmax')))
 
     # we are going to use the Adam optimizer which is a really powerful optimizer.
     optimizer = K.optimizers.Adam()
