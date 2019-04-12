@@ -86,6 +86,7 @@ def create_input_dataset(file, word_to_id):
         x.append(np.array(feature_vector))
     return np.array(x)
 
+model = K.models.Model(inputs=[])
 
 def BIES_to_numerical(file_path):
     BIES_to_number = {'B': 0, 'I': 1, 'E': 2, 'S': 3}
