@@ -56,7 +56,7 @@ def read_file(original_file_path, input_file_path, label_file_path):
 
 
 if __name__ == '__main__':
-    #BIES_to_numerical("../resources/train/labels/pku.txt", "../resources/train/labels_numerical/")
+    #BIES_to_numerical("../resources/train/labels/pku.utf8", "../resources/train/labels_numerical/")
     open("../resources/train/input/as.txt")
 
 
